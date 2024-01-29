@@ -1,0 +1,23 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: rest_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 567234
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  app:
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - redis
+      - postgres
